@@ -26,8 +26,8 @@ type OAuthAccessToken struct {
 }
 
 // CreateClient creates a new client from this OAuth token
-func (t *OAuthAccessToken) CreateClient() *Client {
-	return NewClient(t.AccessToken)
+func (t *OAuthAccessToken) CreateClient(baseURL string) *Client {
+	return NewClient(t.AccessToken, baseURL)
 }
 
 // GenerateToken returns back an access token for a given integration's client ID and client secret

@@ -170,15 +170,18 @@ var RateLimitRetryPolicy = DefaultRateLimitRetryPolicy
 
 // NewClient returns a new HipChat API client. You must provide a valid
 // AuthToken retrieved from your HipChat account.
-func NewClient(authToken string) *Client {
-	baseURL, err := url.Parse(defaultBaseURL)
+func NewClient(authToken string, baseURL string) *Client {
+	if baseURL == "" {
+		baseURL = defaultBaseURL
+	}
+	baseURLParsed, err := url.Parse(baseURL)
 	if err != nil {
 		panic(err)
 	}
 
 	c := &Client{
 		authToken: authToken,
-		BaseURL:   baseURL,
+		BaseURL:   baseURLParsed,
 		client:    http.DefaultClient,
 	}
 	c.Room = &RoomService{client: c}
